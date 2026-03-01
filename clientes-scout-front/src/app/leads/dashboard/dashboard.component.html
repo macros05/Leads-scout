@@ -1,0 +1,54 @@
+<div class="max-w-7xl mx-auto">
+  <div *ngIf="isLoading()">
+    <div class="h-10 w-64 bg-slate-200 animate-pulse rounded-lg mb-4"></div>
+    <div class="h-6 w-96 bg-slate-100 animate-pulse rounded-lg mb-10"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div *ngFor="let i of [1,2,3]" class="bg-white rounded-3xl p-8 shadow-sm h-64 border-t-8 border-slate-100 animate-pulse">
+        <div class="h-4 w-24 bg-slate-200 rounded mb-4"></div>
+        <div class="h-20 w-32 bg-slate-200 rounded mb-4"></div>
+        <div class="h-4 w-full bg-slate-100 rounded"></div>
+      </div>
+    </div>
+
+    <div class="bg-slate-100 rounded-3xl p-10 h-40 animate-pulse"></div>
+  </div>
+
+  <div *ngIf="!isLoading()">
+    <header class="mb-10">
+      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Market Overview: Málaga</h1>
+      <p class="text-lg text-slate-600">Identifying high-risk businesses with poor web performance.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="bg-white rounded-3xl p-8 shadow-2xl border-t-8 border-red-600">
+        <p class="text-red-600 font-black text-sm uppercase tracking-widest mb-2">Critical Risk</p>
+        <p class="text-7xl font-black text-slate-900">{{ stats().critical }}</p>
+        <p class="text-slate-500 mt-2 font-medium">Businesses losing customers right now.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 shadow-xl border-t-8 border-orange-500">
+        <p class="text-orange-500 font-black text-sm uppercase tracking-widest mb-2">Needs Optimization</p>
+        <p class="text-7xl font-black text-slate-900">{{ stats().optimization }}</p>
+        <p class="text-slate-500 mt-2 font-medium">Poor mobile experience detected.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 shadow-xl border-t-8 border-slate-900">
+        <p class="text-slate-500 font-black text-sm uppercase tracking-widest mb-2">Total Analyzed</p>
+        <p class="text-7xl font-black text-slate-900">{{ stats().total }}</p>
+        <p class="text-slate-500 mt-2 font-medium">Local database coverage.</p>
+      </div>
+    </div>
+
+    <div class="bg-slate-900 rounded-3xl p-10 text-white flex flex-col md:flex-row items-center justify-between">
+      <div>
+        <h2 class="text-3xl font-bold mb-2">Ready to close a new deal?</h2>
+        <p class="text-slate-400">There are {{ stats().offline }} businesses currently offline in Málaga center.</p>
+      </div>
+      <button routerLink="/leads" class="mt-6 md:mt-0 px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl transition-all transform hover:scale-105 shadow-lg shadow-red-600/40">
+        OPEN LEAD LIST 🚀
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="max-w-4xl mx-auto py-12 px-6">
+  <div class="bg-slate-900 rounded-[3rem] p-12 text-white shadow-2xl border-b-8 border-red-600">
+    <h2 class="text-4xl font-black mb-4">Lead Hunter 🎯</h2>
+    <p class="text-slate-400 mb-8 text-lg">Enter a business type to scout 20 new targets in Málaga.</p>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <input
+        #sectorInput
+        type="text"
+        placeholder="e.g. 'Clinica Dental', 'Talleres'..."
+        class="flex-1 bg-slate-800 border-2 border-slate-700 rounded-2xl px-6 py-4 text-xl focus:border-red-600 outline-none transition-all"
+      />
+      <button
+        (click)="startScouting(sectorInput.value)"
+        [disabled]="isScouting()"
+        class="bg-red-600 hover:bg-red-700 disabled:bg-slate-700 px-10 py-4 rounded-2xl font-black text-xl transition-all flex items-center justify-center gap-3">
+        <span *ngIf="!isScouting()">SCOUT NOW 🚀</span>
+        <span *ngIf="isScouting()" class="animate-pulse">SCOUTING...</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="statusMessage()" class="mt-8 p-6 bg-emerald-100 text-emerald-800 rounded-2xl font-bold animate-bounce">
+    {{ statusMessage() }}
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+  <div class="p-8 border-b border-gray-50 flex justify-between items-center">
+    <h2 class="text-2xl font-bold text-slate-900">Málaga Business Directory</h2>
+    <span class="px-4 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-bold">
+      {{ (leads$ | async)?.length || 0 }} Total Records
+    </span>
+  </div>
+
+  <table class="w-full text-left">
+    <thead class="bg-slate-50 text-slate-400 uppercase text-xs tracking-widest font-black">
+    <tr>
+      <th class="px-8 py-4">Business Name</th>
+      <th class="px-8 py-4">Performance</th>
+      <th class="px-8 py-4">Status</th>
+      <th class="px-8 py-4 text-right">Action</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+    <tr *ngFor="let lead of (leads$ | async)" class="hover:bg-slate-50 transition-colors group">
+          <td class="px-8 py-6">
+        <p class="font-bold text-slate-900 text-lg">{{ lead.name }}</p>
+        <p class="text-slate-400 text-sm font-mono">{{ lead.website }}</p>
+      </td>
+      <td class="px-8 py-6">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl font-black" [ngClass]="{
+              'text-red-600': lead.performanceScore < 40,
+              'text-orange-500': lead.performanceScore >= 40 && lead.performanceScore < 70,
+              'text-emerald-500': lead.performanceScore >= 70
+            }">{{ lead.performanceScore }}</span>
+          <div class="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div class="h-full" [ngStyle]="{'width': lead.performanceScore + '%', 'background-color': lead.performanceScore < 40 ? '#dc2626' : '#10b981'}"></div>
+          </div>
+        </div>
+      </td>
+      <td class="px-8 py-6">
+          <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase" [ngClass]="{
+            'bg-red-100 text-red-700': lead.status === 'Critical' || lead.status === 'Offline',
+            'bg-orange-100 text-orange-700': lead.status === 'Warning',
+            'bg-emerald-100 text-emerald-700': lead.status === 'Good'
+          }">{{ lead.status }}</span>
+      </td>
+      <td class="px-8 py-6 text-right">
+        <button [routerLink]="['/audit', lead.id]" class="bg-slate-900 text-white px-6 py-2 rounded-xl font-bold opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600">
+          Open Audit
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

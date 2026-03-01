@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <h2>Leads Scout</h2>
+    <p class="subtitle">
+      {{ isRegisterMode ? 'Create your account' : 'Sign in to continue' }}
+    </p>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="email"
+        placeholder="your@email.com"
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        [(ngModel)]="password"
+        placeholder="••••••••"
+        autocomplete="current-password"
+      />
+    </div>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button (click)="submit()" [disabled]="loading">
+      {{ loading ? 'Loading...' : (isRegisterMode ? 'Register' : 'Login') }}
+    </button>
+
+    <p class="toggle" (click)="toggleMode()">
+      {{ isRegisterMode ? 'Already have an account? Sign in' : "Don't have an account? Register" }}
+    </p>
+
+  </div>
+</div>

@@ -1,0 +1,23 @@
+# --- IDE Files (IntelliJ) ---
+.idea/
+*.iml
+
+# --- Backend (Java / Spring Boot / Maven) ---
+target/
+*.class
+*.log
+.env
+*.env
+application-local.properties
+application-prod.properties
+clientes-scout/src/main/resources/application.properties
+
+# --- Frontend (Node / Angular) ---
+node_modules/
+dist/
+.angular/
+npm-debug.log
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
