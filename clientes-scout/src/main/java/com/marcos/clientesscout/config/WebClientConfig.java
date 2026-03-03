@@ -11,7 +11,6 @@ public class WebClientConfig implements WebMvcConfigurer {
 
     @Bean
     public WebClient.Builder webClientBuilder() {
-        // Configuramos 10MB de memoria para que no falle con PageSpeed
         return WebClient.builder()
                 .codecs(configurer -> configurer
                         .defaultCodecs()
@@ -21,7 +20,7 @@ public class WebClientConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") // El puerto de tu Angular
+                .allowedOrigins("http://34.52.207.255", "http://34.52.207.255:80") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
