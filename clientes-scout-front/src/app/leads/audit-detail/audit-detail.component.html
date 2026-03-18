@@ -17,12 +17,13 @@
     <div class="bg-slate-900 rounded-[3rem] p-12 text-white shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
         <h1 class="text-5xl font-black mb-2">{{ lead()?.name }}</h1>
-        <p class="text-slate-400 text-xl mb-8">{{ lead()?.website }}</p>
+        <!-- Campo corregido: websiteUrl (antes era website, que no existía en la interfaz actualizada) -->
+        <p class="text-slate-400 text-xl mb-8">{{ lead()?.websiteUrl }}</p>
 
         <div class="flex items-end gap-6">
           <div class="text-8xl font-black leading-none"
-               [ngClass]="lead()!.performanceScore < 40 ? 'text-red-500' : 'text-emerald-500'">
-            {{ lead()?.performanceScore }}
+               [ngClass]="(lead()!.performanceScore ?? 0) < 40 ? 'text-red-500' : 'text-emerald-500'">
+            {{ lead()?.performanceScore ?? 'N/A' }}
           </div>
           <div class="pb-2">
             <p class="text-2xl font-bold uppercase tracking-tighter">Performance Score</p>
@@ -36,20 +37,17 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
         <h3 class="text-slate-400 uppercase text-xs font-black tracking-widest mb-4">Detected Issues</h3>
-        <ul class="space-y-4">
-          <li class="flex items-center gap-3 text-slate-700 font-medium">
-            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-            Slow mobile loading time (> 4s)
-          </li>
-          <li class="flex items-center gap-3 text-slate-700 font-medium">
-            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-            Unoptimized images found
-          </li>
-          <li class="flex items-center gap-3 text-slate-700 font-medium">
-            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
-            Missing Meta Tags for SEO
+        <!-- Renderiza los issues reales desde la IA en lugar de datos hardcodeados -->
+        <ul class="space-y-4" *ngIf="lead()?.detectedIssues?.length; else noIssues">
+          <li *ngFor="let issue of lead()?.detectedIssues"
+              class="flex items-start gap-3 text-slate-700 font-medium">
+            <span class="w-2 h-2 mt-2 bg-red-500 rounded-full flex-shrink-0"></span>
+            {{ issue }}
           </li>
         </ul>
+        <ng-template #noIssues>
+          <p class="text-slate-400 text-sm">No issues detected or analysis not available.</p>
+        </ng-template>
       </div>
 
       <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col justify-center">
@@ -59,22 +57,25 @@
         <div class="flex flex-col gap-3">
           <a [href]="generateMailto()"
              class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl transition-transform hover:scale-105 shadow-lg shadow-emerald-500/30 text-center flex items-center justify-center gap-2">
-            SEND EMAIL PROPOSAL 📩
+            SEND EMAIL PROPOSAL
           </a>
 
-          <a [href]="'https://www.google.com/search?q=' + lead()?.name + ' Malaga'"
+          <a [href]="'https://www.google.com/search?q=' + lead()?.name"
              target="_blank"
+             rel="noopener noreferrer"
              class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl text-center text-sm transition-colors">
-            Verify Business on Google 🔍
+            Verify Business on Google
           </a>
         </div>
       </div>
+
       <div class="mt-12 pt-8 border-t border-slate-100 flex justify-end">
         <button
           (click)="confirmDeletion()"
           class="text-red-400 hover:text-red-600 font-bold flex items-center gap-2 transition-colors uppercase tracking-widest text-xs">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
           Permanently Delete Audit Record
         </button>

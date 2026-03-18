@@ -5,6 +5,17 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Entidad que representa un lead (cliente potencial) en la base de datos.
+ *
+ * Los campos de análisis (performanceScore, techStack, detectedIssues, websiteUrl)
+ * son poblados automáticamente por el proceso de scouting (ClientService.startScouting)
+ * y no deben modificarse manualmente excepto a través de ese flujo.
+ *
+ * El campo email se valida con @Email cuando se introduce manualmente.
+ * Cuando proviene del scraper (AnalyzerService.scrapeEmail), el servicio filtra
+ * los valores especiales ("N/A", "Not found", "Not reachable") antes de asignarlos.
+ */
 @Entity
 @Table(name = "clients")
 public class Client {
@@ -29,13 +40,20 @@ public class Client {
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
+
     @Column(length = 500)
     private String websiteUrl;
 
+    /** Puntuación de rendimiento PageSpeed, en escala 0-100. Null si no analizado. */
     private Double performanceScore;
 
+    /** Tecnologías detectadas en el sitio, separadas por coma. */
     private String techStack;
 
+    /**
+     * Lista de problemas técnicos generados por Gemini AI.
+     * Almacenada en tabla secundaria (client_detected_issues) por @ElementCollection.
+     */
     @ElementCollection
     private List<String> detectedIssues;
 
@@ -43,7 +61,8 @@ public class Client {
 
     private int budget;
 
-    // Getters and setters
+    // --- Getters y Setters ---
+
     public Long getId() { return id; }
 
     public String getName() { return name; }
