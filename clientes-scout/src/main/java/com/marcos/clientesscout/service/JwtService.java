@@ -37,6 +37,11 @@ public class JwtService {
                 .getBody().getSubject();
     }
 
+    /** Devuelve el tiempo de expiración en milisegundos, usado para fijar el maxAge del cookie. */
+    public long getExpiration() {
+        return expiration;
+    }
+
     public boolean isValid(String token) {
         try {
             Jwts.parserBuilder()

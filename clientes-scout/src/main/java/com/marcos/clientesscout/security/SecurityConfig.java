@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/auth/**").permitAll()  // incluye /api/auth/logout
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
